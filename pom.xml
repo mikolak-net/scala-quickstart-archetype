@@ -9,7 +9,7 @@
 		<relativePath>common/pom.xml</relativePath>
 	</parent>
 	<artifactId>scala-quickstart-archetype</artifactId>
-	<version>0.8.0</version>
+	<version>0.8.1-SNAPSHOT</version>
 	<packaging>maven-archetype</packaging>
 
 	<name>${project.artifactId}</name>
