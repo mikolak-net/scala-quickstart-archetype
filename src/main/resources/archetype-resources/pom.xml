@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>${groupId}</groupId>
+	<artifactId>${artifactId}</artifactId>
+	<version>${version}</version>
+	<packaging>jar</packaging>
+
+##error messages
+#macro( checkPropertyValid $paramName $paramValue $legalValues )
+#if (!$legalValues.contains($paramValue))
+		-------
+		<ERROR>: "$paramName"=$paramValue, which is an invalid value!
+		Allowed values are: $legalValues.
+		See the archetype description and rerun archetype:generate
+		-------
+#end
+#end
+##
+##
+#set ($javaVersion = "1.7")
+##
+#set ($sourceFoldersAllJava = "all-in-src-java")
+#set ($sourceFoldersScalaOnly = "scala-only")
+#set ($sourceFoldersSplitSrc = "both-split-src")
+#set ($sourceFoldersValid = [$sourceFoldersAllJava, $sourceFoldersScalaOnly, $sourceFoldersSplitSrc])
+#set ($dummyResult = $validCompilerModes.addAll($retroLambdaOpts))
+##
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>${javaVersion}</java.version>
+##		
+#set ($tempScalaVersionSegments = $scalaVersion.lastIndexOf('.') - $scalaVersion.indexOf('.') )
+##will be 0 if only 1 period, will be -2 if not present 
+#if ($tempScalaVersionSegments <= 0)
+	<ERROR>"scalaVersion"=$scalaVersion. Should be a *full* version number, e.g. 2.11.2!
+#end
+		<scala.version>$scalaVersion</scala.version>
+#set ($tempSmallVersionIndex = $scalaVersion.lastIndexOf('.') )	##isn't Velocity fun?
+#set ($scalaVersionTools = $scalaVersion.substring(0,$tempSmallVersionIndex) )
+	<scala.version.tools>$scalaVersionTools</scala.version.tools>
+#checkPropertyValid( "sourceFolders" $sourceFolders $sourceFoldersValid )
+	</properties>
+
+	<build>
+#if ($sourceFolders == $sourceFoldersScalaOnly)		
+			<sourceDirectory>src/main/scala</sourceDirectory>
+			<testSourceDirectory>src/test/scala</testSourceDirectory>
+#end
+		<plugins>
+			<plugin>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>scala-maven-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<!-- this is so we don't end with a compile error in maven-compiler-plugin -->					
+						<phase>process-sources</phase> 					
+						<goals>
+							<goal>compile</goal>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+#if ($sourceFolders == $sourceFoldersAllJava)
+							<mainSourceDir>${project.build.sourceDirectory}/../java</mainSourceDir>
+#end
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>${scala.version}</version>
+		</dependency>
+###test library code
+##test dependency boilerplate generator
+#macro ( testLibrary $testLibraryMatchingParam $invertCondition $groupId $artifactId $version )
+## no XOR in Velocity, so we have to do this
+#set ($paramMatches = ($testLibraryMatchingParam == $testLibrary))
+#if ((!$invertCondition && $paramMatches) || ($invertCondition && !$paramMatches))
+		<dependency>
+			<groupId>$groupId</groupId>
+			<artifactId>$artifactId</artifactId>
+			<version>$version</version>
+			<scope>test</scope>
+		</dependency>
+#end		
+#end
+##
+##boilerplate generator - specialization for Scala-version-marked artifacts
+#macro ( testLibraryScala $testLibraryMatchingParam $invertCondition $groupId $artifactIdBase $version )
+#set ($artifactIdActual = $artifactIdBase + "_${scala.version.tools}" )
+#testLibrary ($testLibraryMatchingParam $invertCondition $groupId $artifactIdActual $version)	
+#end
+##
+#set ($testLibraryValid = ["scalatest","specs2","scalacheck-junit","junit-only"])
+#checkPropertyValid( "testLibrary" $testLibrary $testLibraryValid )
+##
+#testLibrary ( true false "junit" "junit" "4.11")
+##
+#testLibraryScala( "junit-only" true "org.scalacheck" "scalacheck" "1.11.4" )
+#testLibraryScala( "scalatest" false "org.scalatest" "scalatest" "2.2.0" )
+#testLibraryScala( "specs2" false "org.specs2" "specs2" "2.3.13")
+	</dependencies>
+</project>

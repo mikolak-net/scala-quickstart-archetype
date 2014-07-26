@@ -1,15 +1,99 @@
-scala-quickstart-archetype
---------------------------
+# scala-quickstart-archetype
+:experimental:
+:groupId: pl.org.miki
+:artifactId: scala-quickstart-archetype
+:version: 0.8.0
+:noteOption: (see <<_options,Options>> for more info)
+:artifactSearchName: scala-quickstart
+//due to lack of includes (see https://github.com/github/markup/issues/335), have to make-do with the following
+:optionLinesBatch1: -DsourceFolders: [all-in-src-java, scala-only, both-split-src] \ #optional
+:optionLinesBatch2: -DtestLibrary: [scalatest, specs2, scalacheck-only, junit-only] #optional
+:optionLinesBatch3:
+:optionLineInteractive: sourceFolders, testLibrary
+:toc: right
 
-Basic Scala archetype.
+## Introduction
 
-Usage
------
+An uncomplicated Scala archetype. Has the following features:
 
-The archetype is under development right now. See the https://github.com/mikkoz/scala-quickstart-archetype/issues[issue list] for details on planned features.
+* minimizes the amount of "example" files that you would have to delete anyway (cf. `maven-quickstart-archetype`).
+* automatically creates *empty* package directories for `main` and `test`.
+* lets _you_ choose your source folder structure.
+** all applicable structure options allow for mixed Java-Scala development.
+** has a sensible default where everything is in `src/main/java` (allows for IDEs to play nicely).
+* lets _you_ choose your favorite test library.
+ 
+The general goal of this archetype is to provide a minimum-cruft, customizable ability to create Java/Scala
+and pure Scala Maven projects. 
 
-Why yet another archetype?
---------------------------
+## Options
+
+* sourceFolders: [all-in-src-java, scala-only, both-split-src]. DEFAULT: all-in-src-java.
+** all-in-src-java: Scala and Java code are both in src/main/java (same for test). Plays nicely with IDEs.
+** scala-only: only src/main/scala set up, and set as source folder.
+** both-split-src: both src/main/java and src/main/scala. Can play merry havock with IDEs, so not the default.
+* testLibrary: [scalatest, specs2, scalacheck-only, junit-only]. DEFAULT: scalatest.
+** scalatest: adds Scalatest AND Scalacheck AND JUnit for most of your testing needs.
+** specs2: adds specs2 AND Scalacheck AND JUnit.
+** scalacheck-junit: adds Scalacheck AND JUnit.
+** junit-only: adds JUnit ONLY.
+* scalaVersion: 2.10.x+. DEFAULT: 2.11.2.
+
+NOTE: The Scala tool version is generated automatically.
+
+NOTE: Some Scala versions may not be compatible with selected test library versions. Adjust as necessary.
+
+## Usage
+
+Analogous to `maven-quickstart-archetype`. Since the archetype is now on Maven Central, you don't need to download anything.
+
+### CLI
+
+#### Batch
+
+[source,bash,subs="attributes"]
+----
+mvn archetype:generate -B \
+ -DarchetypeGroupId={groupId} -DarchetypeArtifactId={artifactId} -DarchetypeVersion={version} \
+ -DgroupId=com.example -DartifactId=project -Dversion=1.0 -Dpackage=com.example.project \
+ {optionLinesBatch1}
+ {optionLinesBatch2}
+ {optionLinesBatch3}
+----
+
+#### Interactive
+
+[source,bash,subs="attributes"]
+----
+cd x #where x is your "workspace" directory
+mvn archetype:generate
+#filter by e.g. "{artifactSearchName}", or gId:aId, which is {groupId}:{artifactId}
+#input artifactId etc. 
+----
+
+### IDE
+
+#### Eclipse
+
+. menu:New ...[Project... > Maven > Maven Project > Next].
+. Filter for +{artifactId}+. btn:[Next].
+. Fill out the necessary values {noteOption}. btn:[Finish]
+
+#### IntelliJ IDEA
+[subs="attributes"]
+
+. menu:Create New Project[Maven].
+. Check `Create from archetype`.
+. *_On first generation only:_* btn:[Add Archetype...]
+.. `GroupID` = +{groupId}+
+.. `ArtifactId` = +{artifactId}+
+.. `Version` = +{version}+
+. Select the +{artifactId}+ archetype from the list. btn:[Next].
+. Enter the Maven coordinates of _your_ project. btn:[Next].
+. Add +{optionLineInteractive}+ to the options {noteOption}.
+. Fill out remaining details and btn:[Finish].
+
+## Why yet another archetype?
 
 An excellent question! First of all, archetypes are sometimes quite underrated as a concept - 
 they provide a gateway to various technologies and frameworks to coders who are not Maven, er, 
@@ -36,5 +120,4 @@ The last subpoint emphasizes why this goal was chosen as a primary one, over edu
 Nowadays, various 3rd party ecosystem libs (such as the aforementioned http://junit.org/[three] 
 http://www.scalatest.org/[testing] https://etorreborre.github.io/specs2/[libraries] ) 
 tend to do a decent job at introducing new developers. Therefore, it is posited that it's more efficient for 
-any given archetype user to have a _tabula rasa_ available at any time than to being educated - 
-a job that's somewhat redundant,  given the context.
+an archetype to just focus on providing a _tabula rasa_.

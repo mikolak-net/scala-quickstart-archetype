@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>pl.org.miki</groupId>
+		<artifactId>quickstart-archetype-common</artifactId>
+		<version>1.0.0</version>
+		<relativePath>common/pom.xml</relativePath>
+	</parent>
+	<artifactId>scala-quickstart-archetype</artifactId>
+	<version>0.8.0-SNAPSHOT</version>
+	<packaging>maven-archetype</packaging>
+
+	<name>${project.artifactId}</name>
+	<description>Customizable cruft-free Scala archetype. Options:
+-sourceFolders: [all-in-src-java, scala-only, both-split-src]. DEFAULT: all-in-src-java.
+--all-in-src-java: Scala and Java code are both in src/main/java (same for test). Plays nicely with IDEs.
+--scala-only: only src/main/scala set up, and set as source folder.
+--both-split-src: both src/main/java and src/main/scala. Can play merry havock with IDEs, so not the default.
+-testLibrary: [scalatest, specs2, scalacheck-only, junit-only]. DEFAULT: scalatest.
+--scalatest: adds Scalatest AND Scalacheck AND JUnit for most of your testing needs.
+--specs2: adds specs2 AND Scalacheck AND JUnit.
+--scalacheck-junit: adds Scalacheck AND JUnit.
+--junit-only: adds JUnit ONLY.
+-scalaVersion: 2.10.x+. DEFAULT: 2.11.2.
+*The Scala tool version is generated automatically.
+*Some Scala versions may not be compatible with selected test library versions. Adjust as necessary.
+</description>
+	<url>https://github.com/mikkoz/java8-quickstart-archetype</url>
+
+	<licenses>
+		<license>
+			<name>BSD 3-clause "New" or "Revised" License</name>
+			<url>http://www.spdx.org/licenses/BSD-3-Clause</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:https://github.com/mikkoz/${project.artifactId}.git</connection>
+		<developerConnection>scm:git:https://github.com/mikkoz/${project.artifactId}.git</developerConnection>
+		<url>https://github.com/mikkoz/${project.artifactId}.git</url>
+	</scm>
+
+	<developers>
+		<developer>
+			<name>Mikołaj Koziarkiewicz</name>
+			<email>miki@miki.org.pl</email>			
+			<organization>Miki's OSS Projects</organization>
+			<organizationUrl>http://miki.org.pl</organizationUrl>
+		</developer>
+	</developers>
+	<inceptionYear>2014</inceptionYear>
+
+	<build>
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.archetype</groupId>
+				<artifactId>archetype-packaging</artifactId>
+				<version>${archetype.plugin.version}</version>
+			</extension>
+		</extensions>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-archetype-plugin</artifactId>
+					<version>${archetype.plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
