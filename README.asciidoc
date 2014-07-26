@@ -28,16 +28,16 @@ and pure Scala Maven projects.
 
 ## Options
 
-* sourceFolders: [all-in-src-java, scala-only, both-split-src]. DEFAULT: all-in-src-java.
-** all-in-src-java: Scala and Java code are both in src/main/java (same for test). Plays nicely with IDEs.
-** scala-only: only src/main/scala set up, and set as source folder.
-** both-split-src: both src/main/java and src/main/scala. Can play merry havock with IDEs, so not the default.
-* testLibrary: [scalatest, specs2, scalacheck-only, junit-only]. DEFAULT: scalatest.
-** scalatest: adds Scalatest AND Scalacheck AND JUnit for most of your testing needs.
-** specs2: adds specs2 AND Scalacheck AND JUnit.
-** scalacheck-junit: adds Scalacheck AND JUnit.
-** junit-only: adds JUnit ONLY.
-* scalaVersion: 2.10.x+. DEFAULT: 2.11.2.
+* `sourceFolders`: [`all-in-src-java`, `scala-only`, `both-split-src`]. DEFAULT: `all-in-src-java`.
+** `all-in-src-java`: Scala and Java code are both in src/main/java (same for test). Plays nicely with IDEs.
+** `scala-only`: only `src/main/scala` set up, and set as source folder.
+** `both-split-src`: both `src/main/java` and `src/main/scala`. Can wreak havoc with IDEs, so not the default.
+* `testLibrary`: [`scalatest`, `specs2`, `scalacheck-only`, `junit-only`]. DEFAULT: scalatest.
+** `scalatest`: adds Scalatest _AND_ Scalacheck _AND_ JUnit for most of your testing needs.
+** `specs2`: adds specs2 _AND_ Scalacheck _AND_ JUnit.
+** `scalacheck-junit`: adds Scalacheck _AND_ JUnit.
+** `junit-only`: adds JUnit _ONLY_.
+* `scalaVersion`: `2.10.x+`. DEFAULT: `2.11.2`.
 
 NOTE: The Scala tool version is generated automatically.
 
