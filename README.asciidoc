@@ -9,7 +9,7 @@
 :optionLinesBatch1: -DsourceFolders: [all-in-src-java, scala-only, both-split-src] \ #optional
 :optionLinesBatch2: -DtestLibrary: [scalatest, specs2, scalacheck-only, junit-only] #optional
 :optionLinesBatch3:
-:optionLineInteractive: sourceFolders, testLibrary
+:optionLineInteractive: sourceFolders, testLibrary, scalaVersion
 :toc: right
 
 ## Introduction
