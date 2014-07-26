@@ -2,7 +2,7 @@
 :experimental:
 :groupId: pl.org.miki
 :artifactId: scala-quickstart-archetype
-:version: 0.8.0
+:version: 0.8.2
 :noteOption: (see <<_options,Options>> for more info)
 :artifactSearchName: scala-quickstart
 //due to lack of includes (see https://github.com/github/markup/issues/335), have to make-do with the following

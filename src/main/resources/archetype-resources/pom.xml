@@ -110,7 +110,7 @@
 #set ($testLibraryValid = ["scalatest","specs2","scalacheck-junit","junit-only"])
 #checkPropertyValid( "testLibrary" $testLibrary $testLibraryValid )
 ##
-#testLibrary ( true false "junit" "junit" "4.11")
+#testLibrary ( "ablabla" true "junit" "junit" "4.11")
 ##
 #testLibraryScala( "junit-only" true "org.scalacheck" "scalacheck" "1.11.4" )
 #testLibraryScala( "scalatest" false "org.scalatest" "scalatest" "2.2.0" )
